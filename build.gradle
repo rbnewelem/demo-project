@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.sonarqube' version '3.3'
 }
 
 group 'org.example'
@@ -14,6 +15,18 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
 
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+        property 'sonar.login', 'admin'
+        property 'sonar.password', property('sonarPassword')
+    }
+}
+
 test {
     useJUnitPlatform()
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn test
 }
